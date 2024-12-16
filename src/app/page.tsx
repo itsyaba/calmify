@@ -1,4 +1,5 @@
 import { FAQSection } from "@/components/faq";
+import { Pricing } from "@/components/pricing";
 import { TestimonialsSection } from "@/components/testimonialSection";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -43,6 +44,7 @@ export default function Home() {
           <FeaturesSection />
         </div>
       </section>
+      <Pricing />
       <TestimonialsSection />
       <FAQSection />
     </div>

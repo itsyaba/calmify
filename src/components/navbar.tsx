@@ -38,14 +38,14 @@ const Navbar = () => {
         <span className="text-xl font-stinntUltra ml-2">CALMIFY.</span>
       </Link>
       <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center font-pontanoSans">
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
+        <Link className="text-sm font-medium hover:underline underline-offset-4" href="#features">
           Features
         </Link>
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/about">
-          About
+        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/pricing">
+          Pricing
         </Link>
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-          Contact Us
+        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/faq">
+          FAQ
         </Link>
         <Link className="text-sm font-medium hover:underline underline-offset-4" href="/chat">
           Chat
