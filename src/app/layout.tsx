@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Stint_Ultra_Expanded, Pontano_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
+import { Footer } from "@/components/footer";
 
 const stinntUltra = Stint_Ultra_Expanded({
   subsets: ["latin"],
@@ -17,7 +18,7 @@ const pontanoSans = Pontano_Sans({
 
 export const metadata: Metadata = {
   title: "CALMIFY.",
-  description: "your ai based therapist",
+  description: "Your AI based therapist",
 };
 
 export default function RootLayout({
@@ -31,6 +32,7 @@ export default function RootLayout({
         <div className="w-11/12 mx-auto">
           <Navbar />
           {children}
+          <Footer />
         </div>
       </body>
     </html>
