@@ -3,7 +3,7 @@
 import { Menu } from "lucide-react";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./ui/sheet";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 
@@ -50,7 +50,9 @@ const Navbar = () => {
         <Link className="text-sm font-medium hover:underline underline-offset-4" href="/chat">
           Chat
         </Link>
-        <Button>Try For Free</Button>
+        <Link href="/login" className={buttonVariants()}>
+          Try For Free
+        </Link>
       </nav>
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
