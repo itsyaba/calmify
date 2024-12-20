@@ -11,37 +11,61 @@ import { useRouter } from "next/navigation";
 import { Github } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<"form">) {
+export function SignupForm({ className, ...props }: React.ComponentPropsWithoutRef<"form">) {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const router = useRouter();
   const { toast } = useToast();
+
+  const router = useRouter();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+
     try {
-      const result = await signIn("credentials", {
-        redirect: false,
-        email,
-        password,
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password }),
       });
 
-      if (result?.error) {
-        setError("Invalid email or password");
+      if (res.ok) {
+        const result = await signIn("credentials", {
+          redirect: false,
+          email,
+          password,
+        });
+
+        if (result?.error) {
+          setError("Error signing in after signup. Please try logging in.");
+          toast({
+            title: "Error",
+            description: "Error signing in after signup. Please try logging in.",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Success",
+            description: "You have successfully signed up!",
+            variant: "default",
+          });
+          router.push("/chat");
+        }
+      } else {
+        const data = await res.json();
         toast({
           title: "Error",
-          description: "Invalid email or password",
+          description: data.message || "An error occurred during signup.",
           variant: "destructive",
         });
-      } else {
-        toast({
-          title: "Success",
-          description: "You have successfully logged in!",
-        });
-        router.push("/chat");
+        setError(data.message || "An error occurred during signup.");
       }
     } catch (error) {
-      console.error("An error occurred during login:", error);
+      console.error("An error occurred during signup:", error);
       setError("An error occurred. Please try again.");
       toast({
         title: "Error",
@@ -54,13 +78,24 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
   return (
     <form className={cn("flex flex-col gap-6", className)} {...props} onSubmit={handleSubmit}>
       <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-bold">Login to your account</h1>
+        <h1 className="text-2xl font-bold">Create your account</h1>
         <p className="text-balance text-sm text-muted-foreground">
-          Enter your email below to login to your account
+          Enter your details below to create your account
         </p>
       </div>
       {error && <p className="text-red-500 text-sm text-center">{error}</p>}
       <div className="grid gap-6">
+        <div className="grid gap-2">
+          <Label htmlFor="name">Name</Label>
+          <Input
+            id="name"
+            type="text"
+            placeholder="John Doe"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
           <Input
@@ -73,15 +108,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
           />
         </div>
         <div className="grid gap-2">
-          <div className="flex items-center">
-            <Label htmlFor="password">Password</Label>
-            <Link
-              href="/forgot-password"
-              className="ml-auto text-sm underline-offset-4 hover:underline"
-            >
-              Forgot your password?
-            </Link>
-          </div>
+          <Label htmlFor="password">Password</Label>
           <Input
             id="password"
             type="password"
@@ -91,7 +118,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
           />
         </div>
         <Button type="submit" className="w-full">
-          Login
+          Sign Up
         </Button>
         <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
           <span className="relative z-10 bg-background px-2 text-muted-foreground">
@@ -135,9 +162,9 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
         </div>
       </div>
       <div className="text-center text-sm">
-        Don&apos;t have an account?{" "}
-        <Link href="/signup" className="underline underline-offset-4">
-          Sign up
+        Already have an account?{" "}
+        <Link href="/login" className="underline underline-offset-4">
+          Log in
         </Link>
       </div>
     </form>

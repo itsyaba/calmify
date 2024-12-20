@@ -1,37 +1,29 @@
 "use client";
 
-import { Menu } from "lucide-react";
+import { Menu, LogOut } from "lucide-react";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { Button, buttonVariants } from "./ui/button";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
+import { useSession, signOut } from "next-auth/react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const { data: session, status } = useSession();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  console.log(session);
 
   return (
     <header
-      className={`h-16 flex items-center justify-between font-fredoka transition-colors duration-300 ${
-        isScrolled ? "backdrop-blur-lg" : "backdrop-blur-none"
-      }`}
+      className={`h-16 flex items-center justify-between font-fredoka transition-colors duration-300`}
     >
       <Link className="flex items-center justify-center" href="/">
         <Image src={"/logo.png"} alt="logo" width={40} height={40} className="rounded-full" />
@@ -41,18 +33,37 @@ const Navbar = () => {
         <Link className="text-sm font-medium hover:underline underline-offset-4" href="#features">
           Features
         </Link>
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/pricing">
+        <Link className="text-sm font-medium hover:underline underline-offset-4" href="#pricing">
           Pricing
         </Link>
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/faq">
+        <Link className="text-sm font-medium hover:underline underline-offset-4" href="#faq">
           FAQ
         </Link>
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/chat">
-          Chat
-        </Link>
-        <Link href="/login" className={buttonVariants()}>
-          Try For Free
-        </Link>
+        {status === "authenticated" ? (
+          <>
+            <Link href="/chat" passHref>
+              <Button variant="ghost">Chat</Button>
+            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Avatar>
+                  <AvatarImage src={session.user?.image || undefined} />
+                  <AvatarFallback>{session.user?.name?.[0] || "U"}</AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => signOut()}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </>
+        ) : (
+          <Link href="/login" className={buttonVariants()}>
+            Try For Free
+          </Link>
+        )}
       </nav>
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
@@ -66,25 +77,43 @@ const Navbar = () => {
           <nav className="flex flex-col gap-4">
             <Link
               className="text-md font-medium hover:underline underline-offset-4"
-              href="#"
+              href="#features"
               onClick={() => setIsOpen(false)}
             >
               Features
             </Link>
             <Link
               className="text-md font-medium hover:underline underline-offset-4"
-              href="/projects"
+              href="/pricing"
               onClick={() => setIsOpen(false)}
             >
-              Explore Projects
+              Pricing
             </Link>
             <Link
               className="text-md font-medium hover:underline underline-offset-4"
               href="#"
               onClick={() => setIsOpen(false)}
             >
-              About
+              Faq
             </Link>
+            {status === "authenticated" ? (
+              <>
+                <Link
+                  href="/chat"
+                  className="text-md font-medium hover:underline underline-offset-4"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Chat
+                </Link>
+                <Button variant="ghost" onClick={() => signOut()}>
+                  Log out
+                </Button>
+              </>
+            ) : (
+              <Link href="/login" passHref>
+                <Button onClick={() => setIsOpen(false)}>Try For Free</Button>
+              </Link>
+            )}
           </nav>
         </SheetContent>
       </Sheet>
