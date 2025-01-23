@@ -1,6 +1,6 @@
-import { FAQSection } from "@/components/faq";
-import { Pricing } from "@/components/pricing";
-import { TestimonialsSection } from "@/components/testimonialSection";
+import { FAQSection } from "@/components/landing/faq";
+import { Pricing } from "@/components/landing/pricing";
+import { TestimonialsSection } from "@/components/landing/testimonialSection";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FeaturesSection } from "@/components/ui/featureSection";

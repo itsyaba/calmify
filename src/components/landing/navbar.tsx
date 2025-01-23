@@ -2,8 +2,8 @@
 
 import { Menu, LogOut } from "lucide-react";
 import Link from "next/link";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./ui/sheet";
-import { Button, buttonVariants } from "./ui/button";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
+import { Button, buttonVariants } from "../ui/button";
 import { useState } from "react";
 import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
@@ -12,8 +12,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+} from "../ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);

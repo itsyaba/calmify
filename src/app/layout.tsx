@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Stint_Ultra_Expanded, Pontano_Sans } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/navbar";
-import { Footer } from "@/components/footer";
+import Navbar from "@/components/landing/navbar";
+import { Footer } from "@/components/landing/footer";
 import { Providers } from "@/components/provider";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -24,14 +24,7 @@ export const metadata: Metadata = {
 };
 // TODO : axios , react query
 // TODO : Change form fetch to axios
-// TODO : Design Chat page
-// TODO : At least create the UI
 // TODO : create the chat models (4 models) 1. Friendly 2. Father vibes 3. monk mode 4. tries to flirt
-// TODO : use chatgpt as inspiration
-// TODO : show list of chat history at the left
-// TODO : create custom navigation for the chat page (maybe)
-// TODO : why do we not need a model I do not understand this part
-// TODO : use less AI
 
 export default function RootLayout({
   children,

@@ -1,6 +1,6 @@
 "use client";
 
-import { SignupForm } from "@/components/signup-form";
+import { SignupForm } from "@/components/landing/signup-form";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";

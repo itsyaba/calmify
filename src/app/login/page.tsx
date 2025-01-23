@@ -1,6 +1,6 @@
 "use client";
 
-import { LoginForm } from "@/components/login-form";
+import { LoginForm } from "@/components/landing/login-form";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
